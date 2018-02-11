@@ -97,19 +97,10 @@ setup.querySelector('.setup-similar').classList.remove('hidden');
 
 var setupOpen = document.querySelector('.setup-open');
 var setupClose = setup.querySelector('.setup-close');
-var userName = setup.querySelector('.setup-user-name');
-
-// Не получается сделать:
-// Если фокус находится на форме ввода имени, то окно закрываться не должно
-
-var onInputFocus = function (evt) {
-  evt.stopPropagation();
-};
 
 var onPopupEscPress = function (evt) {
   if (evt.keyCode === ESC_KEYCODE) {
     closePopup();
-    userName.addEventListener('focus', onInputFocus);
   }
 };
 
@@ -140,6 +131,14 @@ setupClose.addEventListener('click', function () {
 setupClose.addEventListener('keydown', function (evt) {
   if (evt.keyCode === ENTER_KEYCODE) {
     closePopup();
+  }
+});
+
+var userName = setup.querySelector('.setup-user-name');
+
+userName.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ESC_KEYCODE) {
+    evt.stopPropagation();
   }
 });
 
