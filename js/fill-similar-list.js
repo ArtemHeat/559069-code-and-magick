@@ -1,21 +1,6 @@
 'use strict';
 
 (function () {
-  var WIZARD_COAT_COLORS = [
-    'rgb(101, 137, 164)',
-    'rgb(241, 43, 107)',
-    'rgb(146, 100, 161)',
-    'rgb(56, 159, 117)',
-    'rgb(215, 210, 55)',
-    'rgb(0, 0, 0)'
-  ];
-  var WIZARD_EYE_COLORS = [
-    'black',
-    'red',
-    'blue',
-    'yellow',
-    'green'
-  ];
   var WIZARD_NAMES = [
     'Иван',
     'Хуан Себастьян',
@@ -51,8 +36,8 @@
   for (var i = 0; i < 4; i++) {
     wizards.push({
       name: getFullName(),
-      coatColor: window.getRandomData(WIZARD_COAT_COLORS),
-      eyesColor: window.getRandomData(WIZARD_EYE_COLORS)
+      coatColor: window.getRandomData(window.constants.wizardCoatColors),
+      eyesColor: window.getRandomData(window.constants.wizardEyeColors)
     });
   }
 
