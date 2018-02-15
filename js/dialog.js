@@ -1,53 +1,58 @@
 'use strict';
 
 (function () {
-  var setup = document.querySelector('.setup');
-  var setupOpen = document.querySelector('.setup-open');
-  var setupClose = setup.querySelector('.setup-close');
+  window.setDialogHandler = function () {
+    var ESC_KEYCODE = 27;
+    var ENTER_KEYCODE = 13;
 
-  var onPopupEscPress = function (evt) {
-    if (evt.keyCode === window.util.ESC_KEYCODE) {
-      closePopup();
-    }
-  };
+    var setup = document.querySelector('.setup');
+    var setupOpen = document.querySelector('.setup-open');
+    var setupClose = setup.querySelector('.setup-close');
 
-  var openPopup = function () {
-    setup.classList.remove('hidden');
-    document.addEventListener('keydown', onPopupEscPress);
-  };
+    var onPopupEscPress = function (evt) {
+      if (evt.keyCode === ESC_KEYCODE) {
+        closePopup();
+      }
+    };
 
-  var closePopup = function () {
-    setup.classList.add('hidden');
-    document.removeEventListener('keydown', onPopupEscPress);
-  };
+    var openPopup = function () {
+      setup.classList.remove('hidden');
+      document.addEventListener('keydown', onPopupEscPress);
+    };
 
-  setupOpen.addEventListener('click', function () {
-    openPopup();
-  });
+    var closePopup = function () {
+      setup.classList.add('hidden');
+      document.removeEventListener('keydown', onPopupEscPress);
+    };
 
-  setupOpen.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === window.util.ENTER_KEYCODE) {
+    setupOpen.addEventListener('click', function () {
       openPopup();
-    }
-  });
+    });
 
-  setupClose.addEventListener('click', function () {
-    closePopup();
-  });
+    setupOpen.addEventListener('keydown', function (evt) {
+      if (evt.keyCode === ENTER_KEYCODE) {
+        openPopup();
+      }
+    });
 
-  setupClose.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === window.util.ENTER_KEYCODE) {
+    setupClose.addEventListener('click', function () {
       closePopup();
-    }
-  });
+    });
 
-  var userName = setup.querySelector('.setup-user-name');
+    setupClose.addEventListener('keydown', function (evt) {
+      if (evt.keyCode === ENTER_KEYCODE) {
+        closePopup();
+      }
+    });
 
-  userName.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === window.util.ESC_KEYCODE) {
-      evt.stopPropagation();
-    }
-  });
+    var userName = setup.querySelector('.setup-user-name');
+
+    userName.addEventListener('keydown', function (evt) {
+      if (evt.keyCode === ESC_KEYCODE) {
+        evt.stopPropagation();
+      }
+    });
+  };
 })();
 
 
