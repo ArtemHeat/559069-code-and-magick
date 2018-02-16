@@ -10,13 +10,18 @@
     var setupClose = setup.querySelector('.setup-close');
 
     var onPopupEscPress = function (evt) {
-      if (evt.keyCode === ESC_KEYCODE) {
+      if (evt.target === setup.querySelector('.setup-user-name')
+        && evt.keyCode === ESC_KEYCODE) {
+        evt.stopPropagation();
+      } else if (evt.keyCode === ESC_KEYCODE) {
         closePopup();
       }
     };
 
     var openPopup = function () {
       setup.classList.remove('hidden');
+      setup.style.top = 80 + 'px';
+      setup.style.left = 50 + '%';
       document.addEventListener('keydown', onPopupEscPress);
     };
 
@@ -45,14 +50,55 @@
       }
     });
 
-    var userName = setup.querySelector('.setup-user-name');
+    // Перетаскивание диалогового окна
 
-    userName.addEventListener('keydown', function (evt) {
-      if (evt.keyCode === ESC_KEYCODE) {
-        evt.stopPropagation();
-      }
+    var dialogHandle = setup.querySelector('.upload');
+
+    dialogHandle.addEventListener('mousedown', function (evt) {
+      evt.preventDefault();
+
+      var startCoords = {
+        x: evt.clientX,
+        y: evt.clientY
+      };
+
+      var dragged = false;
+
+      var onMouseMove = function (moveEvt) {
+        moveEvt.preventDefault();
+        dragged = true;
+
+        var shift = {
+          x: startCoords.x - moveEvt.clientX,
+          y: startCoords.y - moveEvt.clientY
+        };
+
+        startCoords = {
+          x: moveEvt.clientX,
+          y: moveEvt.clientY
+        };
+
+        setup.style.top = (setup.offsetTop - shift.y) + 'px';
+        setup.style.left = (setup.offsetLeft - shift.x) + 'px';
+      };
+
+      var onMouseUp = function (upEvt) {
+        upEvt.preventDefault();
+
+        document.removeEventListener('mousemove', onMouseMove);
+        document.removeEventListener('mouseup', onMouseUp);
+
+        if (dragged) {
+          var onClickPreventDefault = function (clickEvt) {
+            clickEvt.preventDefault();
+            dialogHandle.removeEventListener('click', onClickPreventDefault);
+          };
+          dialogHandle.addEventListener('click', onClickPreventDefault);
+        }
+      };
+
+      document.addEventListener('mousemove', onMouseMove);
+      document.addEventListener('mouseup', onMouseUp);
     });
   };
 })();
-
-
