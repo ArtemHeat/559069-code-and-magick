@@ -51,10 +51,10 @@
     return wizardElement;
   };
 
-  window.fillSimilarList = function (list) {
+  window.fillSimilarList = function (list, arr) {
     var fragment = document.createDocumentFragment();
-    for (i = 0; i < wizards.length; i++) {
-      fragment.appendChild(renderWizard(wizards[i]));
+    for (i = 0; i < 4; i++) {
+      fragment.appendChild(renderWizard(arr[i]));
     }
     return list.appendChild(fragment);
   };

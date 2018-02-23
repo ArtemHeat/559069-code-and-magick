@@ -4,10 +4,8 @@
   window.setDialogHandler();
 
   var setup = document.querySelector('.setup');
-
   var similarListElement = setup.querySelector('.setup-similar-list');
-
-  window.fillSimilarList(similarListElement);
+  var form = setup.querySelector('.setup-wizard-form');
 
   setup.querySelector('.setup-similar').classList.remove('hidden');
 
@@ -53,5 +51,46 @@
   artifactsElement.addEventListener('dragleave', function (evt) {
     evt.target.style.backgroundColor = '';
     evt.preventDefault();
+  });
+
+  // Загрузка данных и отправка формы
+
+  var successLoadHandler = function (wizards) {
+    window.fillSimilarList(similarListElement, wizards);
+  };
+
+  var errorLoadHandler = function (errorMessage) {
+    var node = document.createElement('div');
+    node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
+    node.style.position = 'absolute';
+    node.style.left = 0;
+    node.style.right = 0;
+    node.style.fontSize = '30px';
+
+    node.textContent = errorMessage;
+    similarListElement.insertAdjacentElement('afterbegin', node);
+  };
+
+  var successSaveHandler = function () {
+    setup.classList.add('hidden');
+  };
+
+  var errorSaveHandler = function (errorMessage) {
+    var node = document.createElement('div');
+    node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
+    node.style.position = 'absolute';
+    node.style.left = 0;
+    node.style.right = 0;
+    node.style.fontSize = '30px';
+
+    node.textContent = errorMessage;
+    form.insertAdjacentElement('afterbegin', node);
+  };
+
+  window.backend.load(successLoadHandler, errorLoadHandler);
+
+  form.addEventListener('submit', function (evt) {
+    evt.preventDefault();
+    window.backend.save(new FormData(form), successSaveHandler, errorSaveHandler);
   });
 })();
