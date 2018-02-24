@@ -4,7 +4,6 @@
   window.setDialogHandler();
 
   var setup = document.querySelector('.setup');
-  var similarListElement = setup.querySelector('.setup-similar-list');
   var form = setup.querySelector('.setup-wizard-form');
 
   setup.querySelector('.setup-similar').classList.remove('hidden');
@@ -53,23 +52,7 @@
     evt.preventDefault();
   });
 
-  // Загрузка данных и отправка формы
-
-  var successLoadHandler = function (wizards) {
-    window.fillSimilarList(similarListElement, wizards);
-  };
-
-  var errorLoadHandler = function (errorMessage) {
-    var node = document.createElement('div');
-    node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
-    node.style.position = 'absolute';
-    node.style.left = 0;
-    node.style.right = 0;
-    node.style.fontSize = '30px';
-
-    node.textContent = errorMessage;
-    similarListElement.insertAdjacentElement('afterbegin', node);
-  };
+  // Отправка формы
 
   var successSaveHandler = function () {
     setup.classList.add('hidden');
@@ -86,8 +69,6 @@
     node.textContent = errorMessage;
     form.insertAdjacentElement('afterbegin', node);
   };
-
-  window.backend.load(successLoadHandler, errorLoadHandler);
 
   form.addEventListener('submit', function (evt) {
     evt.preventDefault();

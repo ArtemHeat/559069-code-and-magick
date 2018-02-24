@@ -2,13 +2,19 @@
 
 (function () {
   window.colorize = function (element, arr) {
+
     element.addEventListener('click', function () {
-      var color = window.getRandomData(arr);
+      var newColor = window.getRandomData(arr);
+      var nameOfClass;
+
       if (element.tagName.toLowerCase() === 'div') {
-        element.style.backgroundColor = color;
+        element.style.backgroundColor = newColor;
+        nameOfClass = element.className;
       } else {
-        element.style.fill = color;
+        element.style.fill = newColor;
+        nameOfClass = element.getAttribute('class');
       }
+      window.classValueToOnElementChangeFunction[nameOfClass](newColor);
     });
   };
 })();
